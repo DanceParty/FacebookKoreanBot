@@ -3,8 +3,26 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-var unirest = require('unirest')
 //var hangulRominazation = require('hangul-romanization')
+
+var NaverTranslator = require('naver-translator');
+var clientId = 'FkLsdAxNxR_8xU_lA7DO';
+var clientSecret = 'n7Bijo2oYt';
+var credentials = {
+	client_id : clientId,
+	client_secret : clientSecret
+};
+var translator = new NaverTranslator(credentials);
+
+var params = {
+	text : '안녕하세요',
+	source : 'ko',
+	target : 'en'
+};
+var callback = function (result) {
+	console.log(result);
+};
+translator.translate(params, callback);
 
 var PAGE_ACCESS_TOKEN = 'EAAMM1gYOdZBMBAA379aWUrrcy49Q3yrcQ5pVJWtI9LscOMGDGsbiqNZAqZAFiuhsKQ5qVQoVIkvqYB1vZAqTuXvCuHdmgo7ygskf0rKbATWqLBDa7At5ZCM5vNoIqZBvruiZCqP7j2uJfDnsRdamL1g5UEsI5ZCCfSnAmcvJZBPX9PwZDZD';
 
@@ -16,72 +34,34 @@ app.use(bodyParser.urlencoded({extended: false}))
 // Process application/json
 app.use(bodyParser.json())
 
-function translate(recipientId, text) {
-  console.log("translate() text: ", text)
-  unirest.post('http://labspace.naver.com/api/n2mt/translate')
-    .send('source=en')
-    .send('target=ko')
-    .send('text=' + text)
-    .end(function (response) {
-      console.log("response: ", response)
-      var messageData = {
-        recipient: {
-          id: recipientId
-        },
-        message: {
-          text: response.body,
-        }
-      };
-      console.log("Message Data: ", messageData);
-      callSendAPI(messageData);
-    });
-}
-
-function receivedMessage(event) {
-  var senderID = event.sender.id;
-  var recipientID = event.recipient.id;
-  var timeOfMessage = event.timestamp;
-  var message = event.message;
-
-  console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
-  //console.log(JSON.stringify(message));
-
-  var messageId = message.mid;
-
-  var messageText = message.text;
-  var messageAttachments = message.attachments;
-
-  if (messageText) {
-
-    // If we receive a text message, check to see if it matches a keyword
-    // and send back the example. Otherwise, just echo the text we received.
-    switch (messageText) {
-      case 'info':
-        sendGenericMessage(senderID);
-        break;
-
-      default:
-        console.log("Message Text default: ", messageText)
-        translate(senderID, messageText);
-    }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
-  }
-}
-
 function sendTextMessage(recipientId, messageText) {
-  translate(recipientId, messageText)
-  /*var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: translate(messageText),
+  var hangulRegex = /[\u3131-\uD79D]/ugi;
+  var params = {}
+  if (messageText.match(hangulRegex)) {
+    params = {
+  	  text : messageText,
+      source : 'ko',
+      target : 'en'
+    };
+  } else {
+    params = {
+  	  text : messageText,
+      source : 'en',
+      target : 'ko'
+    };
+  }
+
+  translator.translate(params, function(result) {
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        text: result,
+      }
     }
-  };
-  console.log("Message Data: ", messageData)
-  callSendAPI(messageData);*/
+    callSendAPI(messageData);
+  });
 }
 
 function sendGenericMessage(recipientId) {
@@ -117,6 +97,39 @@ function callSendAPI(messageData) {
       //console.error(error);
     }
   });
+}
+
+function receivedMessage(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfMessage = event.timestamp;
+  var message = event.message;
+
+  console.log("Received message for user %d and page %d at %d with message:",
+    senderID, recipientID, timeOfMessage);
+  //console.log(JSON.stringify(message));
+
+  var messageId = message.mid;
+
+  var messageText = message.text;
+  var messageAttachments = message.attachments;
+
+  if (messageText) {
+
+    // If we receive a text message, check to see if it matches a keyword
+    // and send back the example. Otherwise, just echo the text we received.
+    switch (messageText) {
+      case 'info':
+        sendGenericMessage(senderID);
+        break;
+
+      default:
+        console.log("Message Text default: ", messageText)
+        sendTextMessage(senderID, messageText);
+    }
+  } else if (messageAttachments) {
+    sendTextMessage(senderID, "Message with attachment received");
+  }
 }
 
 // Index route
