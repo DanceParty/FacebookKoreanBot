@@ -3,6 +3,9 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
+var unirest = require('unirest')
+var hangulRominazation = require('hangul-romanization')
+
 var PAGE_ACCESS_TOKEN = 'EAAMM1gYOdZBMBAA379aWUrrcy49Q3yrcQ5pVJWtI9LscOMGDGsbiqNZAqZAFiuhsKQ5qVQoVIkvqYB1vZAqTuXvCuHdmgo7ygskf0rKbATWqLBDa7At5ZCM5vNoIqZBvruiZCqP7j2uJfDnsRdamL1g5UEsI5ZCCfSnAmcvJZBPX9PwZDZD';
 
 app.set('port', (process.env.PORT || 5000))
@@ -12,6 +15,16 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 // Process application/json
 app.use(bodyParser.json())
+
+function translate(text) {
+  unirest.post('http://labspace.naver.com/api/n2mt/translate')
+    .send('source=en')
+    .send('target=ko')
+    .send('text=' + text)
+    .end(function (response) {
+        return response.body;
+    });
+}
 
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -33,7 +46,7 @@ function receivedMessage(event) {
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
     switch (messageText) {
-      case 'generic':
+      case 'info':
         sendGenericMessage(senderID);
         break;
 
@@ -51,15 +64,24 @@ function sendTextMessage(recipientId, messageText) {
       id: recipientId
     },
     message: {
-      text: messageText
+      text: translate(messageText),
     }
   };
 
   callSendAPI(messageData);
 }
 
-function sendGenericMessage(recipientId, messageText) {
-  // To be expanded in later sections
+function sendGenericMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: 'This is a bot created by Keevan Dance (http://keevan.dance), Software Developer for CORE Construction. Help keep this bot running by donating here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed, please give us a positive rating!'
+    }
+  };
+
+  callSendAPI(messageData);
 }
 
 function callSendAPI(messageData) {
