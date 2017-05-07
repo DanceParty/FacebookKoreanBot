@@ -64,7 +64,7 @@ function sendTextMessage(recipientId, messageText) {
       id: recipientId
     },
     message: {
-      text: translate(messageText),
+      text: messageText,
     }
   };
 
