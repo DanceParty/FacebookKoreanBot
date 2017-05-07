@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 // Process application/json
 app.use(bodyParser.json())
 
-function translate(text) {
+function translate(recipientId, text) {
   unirest.post('http://labspace.naver.com/api/n2mt/translate')
     .send('source=en')
     .send('target=ko')
