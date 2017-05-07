@@ -22,8 +22,16 @@ function translate(text) {
     .send('target=ko')
     .send('text=' + text)
     .end(function (response) {
-      console.log("Translated text: ", response.body);
-      return response.body;
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          text: response.body,
+        }
+      };
+      console.log("Message Data: ", messageData);
+      callSendAPI(messageData);
     });
 }
 
@@ -60,7 +68,8 @@ function receivedMessage(event) {
 }
 
 function sendTextMessage(recipientId, messageText) {
-  var messageData = {
+  translate(recipientId, messageText)
+  /*var messageData = {
     recipient: {
       id: recipientId
     },
@@ -69,7 +78,7 @@ function sendTextMessage(recipientId, messageText) {
     }
   };
   console.log("Message Data: ", messageData)
-  callSendAPI(messageData);
+  callSendAPI(messageData);*/
 }
 
 function sendGenericMessage(recipientId) {
