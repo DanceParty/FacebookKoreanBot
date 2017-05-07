@@ -17,11 +17,13 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 function translate(recipientId, text) {
+  console.log("translate() text: ", text)
   unirest.post('http://labspace.naver.com/api/n2mt/translate')
     .send('source=en')
     .send('target=ko')
     .send('text=' + text)
     .end(function (response) {
+      console.log("response: ", response)
       var messageData = {
         recipient: {
           id: recipientId
@@ -60,7 +62,8 @@ function receivedMessage(event) {
         break;
 
       default:
-        sendTextMessage(senderID, messageText);
+        console.log("Message Text default: ", messageText)
+        translate(senderID, messageText);
     }
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
