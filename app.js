@@ -22,7 +22,8 @@ function translate(text) {
     .send('target=ko')
     .send('text=' + text)
     .end(function (response) {
-        return response.body;
+      console.log("Translated text: ", response.body);
+      return response.body;
     });
 }
 
@@ -34,7 +35,7 @@ function receivedMessage(event) {
 
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
+  //console.log(JSON.stringify(message));
 
   var messageId = message.mid;
 
@@ -67,7 +68,7 @@ function sendTextMessage(recipientId, messageText) {
       text: translate(messageText),
     }
   };
-
+  console.log("Message Data: ", messageData)
   callSendAPI(messageData);
 }
 
@@ -100,8 +101,8 @@ function callSendAPI(messageData) {
         messageId, recipientId);
     } else {
       console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
+      //console.error(response);
+      //console.error(error);
     }
   });
 }
