@@ -1,5 +1,5 @@
 var IHangulConversionSystem = require('./hangulConversionSystem.js')
-var REVISED_ROMANIZATION_OF_KOREAN: IHangulConversionSystem = {
+var REVISED_ROMANIZATION_OF_KOREAN = {
   vowels: [
     'a',   // ㅏ
     'ae',  // ㅐ
