@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-var hangulRomanization = require('./hangulRomanization/index.js');
+var hangulRomanization = require('hangul-romanization');
 
 var NaverTranslator = require('naver-translator');
 var clientId = 'FkLsdAxNxR_8xU_lA7DO';
