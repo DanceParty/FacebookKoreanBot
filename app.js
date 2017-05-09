@@ -3,7 +3,7 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-//var hangulRominazation = require('hangul-romanization')
+var hangulRomanization = require('hangul-romanization');
 
 var NaverTranslator = require('naver-translator');
 var clientId = 'FkLsdAxNxR_8xU_lA7DO';
@@ -19,10 +19,6 @@ var params = {
 	source : 'ko',
 	target : 'en'
 };
-var callback = function (result) {
-	console.log(result);
-};
-translator.translate(params, callback);
 
 var PAGE_ACCESS_TOKEN = 'EAAMM1gYOdZBMBAA379aWUrrcy49Q3yrcQ5pVJWtI9LscOMGDGsbiq' +
 'NZAqZAFiuhsKQ5qVQoVIkvqYB1vZAqTuXvCuHdmgo7ygskf0rKbATWqLBDa7At5ZCM5vNoIqZBvrui' +
@@ -54,12 +50,13 @@ function sendTextMessage(recipientId, messageText) {
   }
 
   translator.translate(params, function(result) {
+    var romanization = hangulRomanization.convert(result);
     var messageData = {
       recipient: {
         id: recipientId
       },
       message: {
-        text: result,
+        text: result + '\n\n' + romanization,
       }
     }
     callSendAPI(messageData);
@@ -124,10 +121,6 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.log("Received message for user %d and page %d at %d with message:",
-    senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
-
   var messageId = message.mid;
 
   var messageText = message.text;
@@ -142,7 +135,6 @@ function receivedMessage(event) {
         break;
 
       default:
-        console.log("Message Text default: ", messageText)
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
