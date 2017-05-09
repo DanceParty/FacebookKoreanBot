@@ -42,8 +42,8 @@ function sendTextMessage(recipientId, messageText) {
   if (messageText.match(hangulRegex)) {
     params = {
   	  text : messageText,
-      source : 'ko',
-      target : 'en'
+      source : 'en',
+      target : 'ko'
     };
   } else {
     params = {
