@@ -334,12 +334,6 @@ getpass@^0.1.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-hangul-romanization@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/hangul-romanization/-/hangul-romanization-0.0.2.tgz#e4a7f4a9f5a0e096d48240636370a12c3a5cad44"
-  dependencies:
-    typescript "^2.0.3"
-
 har-schema@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/har-schema/-/har-schema-1.0.5.tgz#d263135f43307c02c602afc8fe95970c0151369e"
@@ -769,10 +763,6 @@ type-is@~1.6.14:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.15"
-
-typescript@^2.0.3:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.2.tgz#f0f045e196f69a72f06b25fd3bd39d01c3ce9984"
 
 unirest@^0.5.1:
   version "0.5.1"
