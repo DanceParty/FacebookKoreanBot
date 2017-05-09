@@ -120,7 +120,9 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-
+    console.log('-------------------------------------------------------');
+    console.log('MESSAGE TEXT');
+    console.log('-------------------------------------------------------');
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
     switch (messageText) {
@@ -133,6 +135,9 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
+    console.log('-------------------------------------------------------');
+    console.log('MESSAGE ATTACHMENT');
+    console.log('-------------------------------------------------------');
     sendTextMessage(senderID, "Message with attachment received");
   }
 }
