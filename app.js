@@ -70,7 +70,9 @@ function sendGenericMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: 'This is a bot created by Keevan Dance (http://keevan.dance), Software Developer for CORE Construction. Help keep this bot running by donating here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed, please give us a positive rating!'
+      text: 'This is a bot created by Keevan Dance (http://keevan.dance), \n
+      Software Developer for CORE Construction. Help keep this bot running by donating \n
+      here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed, please give us a positive rating!'
     }
   };
 
@@ -107,7 +109,7 @@ function receivedMessage(event) {
 
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
-  //console.log(JSON.stringify(message));
+  console.log(JSON.stringify(message));
 
   var messageId = message.mid;
 
