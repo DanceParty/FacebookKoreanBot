@@ -72,10 +72,24 @@ function sendGenericMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: 'This is a bot created by Keevan Dance (http://keevan.dance)' +
-      'Software Developer for CORE Construction. Help keep this bot running by donating' +
-      'here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed,' +
+      text: 'This is a bot created by Keevan Dance (http://keevan.dance) ' +
+      'Software Developer for CORE Construction. Help keep this bot running by donating ' +
+      'here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed, ' +
       'please give us a positive rating!'
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+function sendAttachmentMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: 'Hey, translating images/videos/speech is tough, hope I can have ' +
+      'that available one day!'
     }
   };
 
@@ -120,9 +134,6 @@ function receivedMessage(event) {
   var messageAttachments = message.attachments;
 
   if (messageText) {
-    console.log('-------------------------------------------------------');
-    console.log('MESSAGE TEXT');
-    console.log('-------------------------------------------------------');
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
     switch (messageText) {
@@ -135,10 +146,7 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-    console.log('-------------------------------------------------------');
-    console.log('MESSAGE ATTACHMENT');
-    console.log('-------------------------------------------------------');
-    sendTextMessage(senderID, "Message with attachment received");
+    sendAttachmentMessage(senderID);
   }
 }
 
