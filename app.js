@@ -3,26 +3,21 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
+var naverConfig = require('./naverConfig.js')
+var facebookConfig = require('./facebookConfig.js')
+
 var hangulRomanization = require('hangul-romanization');
 
 var NaverTranslator = require('naver-translator');
-var clientId = 'FkLsdAxNxR_8xU_lA7DO';
-var clientSecret = 'n7Bijo2oYt';
+var clientId = naverConfig.naverClient;
+var clientSecret = naverConfig.naverSecret;
 var credentials = {
 	client_id : clientId,
 	client_secret : clientSecret
 };
 var translator = new NaverTranslator(credentials);
 
-var params = {
-	text : '안녕하세요',
-	source : 'ko',
-	target : 'en'
-};
-
-var PAGE_ACCESS_TOKEN = 'EAAMM1gYOdZBMBAA379aWUrrcy49Q3yrcQ5pVJWtI9LscOMGDGsbiq' +
-'NZAqZAFiuhsKQ5qVQoVIkvqYB1vZAqTuXvCuHdmgo7ygskf0rKbATWqLBDa7At5ZCM5vNoIqZBvrui' +
-'ZCqP7j2uJfDnsRdamL1g5UEsI5ZCCfSnAmcvJZBPX9PwZDZD';
+var PAGE_ACCESS_TOKEN = facebookConfig.accessToken;
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -41,26 +36,38 @@ function sendTextMessage(recipientId, messageText) {
       source : 'ko',
       target : 'en'
     };
+		translator.translate(params, function(result) {
+	    var messageData = {
+	      recipient: {
+	        id: recipientId
+	      },
+	      message: {
+	        text: result,
+	      }
+	    }
+	    callSendAPI(messageData);
+	  });
   } else {
     params = {
   	  text : messageText,
       source : 'en',
       target : 'ko'
     };
+		translator.translate(params, function(result) {
+	    var romanization = hangulRomanization.convert(result);
+	    var messageData = {
+	      recipient: {
+	        id: recipientId
+	      },
+	      message: {
+	        text: result + '\n\n' + romanization,
+	      }
+	    }
+	    callSendAPI(messageData);
+	  });
   }
 
-  translator.translate(params, function(result) {
-    var romanization = hangulRomanization.convert(result);
-    var messageData = {
-      recipient: {
-        id: recipientId
-      },
-      message: {
-        text: result + '\n\n' + romanization,
-      }
-    }
-    callSendAPI(messageData);
-  });
+
 }
 
 function sendGenericMessage(recipientId) {
