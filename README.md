@@ -12,6 +12,12 @@
 
 * NodeJS
 
+## Problems?
+
+* Email me: Keevandance@gmail.com
+
+* Open an issue ^_^
+
 ## Roadmap
 
 * Switch to Google Translate when Naver Translate API is down (down for ~4-8 hours each day)
