@@ -107,7 +107,9 @@ function sendTextMessage(recipientId, messageText) {
 					}
 				}
 				*/
-				var ad = '<a href="' + res.ad.cta_url + '"><img src="' + res.ad.media.media_url.medium + '"/>' + res.ad.cta_mini + 'Hello World!</a>'
+				console.log(res);
+				//var ad = '<a href="' + res.ad.cta_url + '"><img src="' + res.ad.media.media_url.medium + '"/>' + res.ad.cta_mini + 'Hello World!</a>'
+				var ad = "test"
 				messageData.message.text = ad;
 				callSendAPI(messageData);
 			});
