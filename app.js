@@ -114,12 +114,11 @@ function sendTextMessage(recipientId, messageText) {
 					body += data;
 				})
 				res.on('end', function() {
-					console.log("JSON DATA: ", JSON.parse(body))
+					var ad = '<a href="' + body.ad.cta_url + '"><img src="' + body.ad.media.media_url.medium + '"/>' + body.ad.cta_mini + 'Hello World!</a>'
+					messageData.message.text = ad;
+					callSendAPI(messageData);
 				})
-				//var ad = '<a href="' + res.ad.cta_url + '"><img src="' + res.ad.media.media_url.medium + '"/>' + res.ad.cta_mini + 'Hello World!</a>'
-				var ad = "test"
-				messageData.message.text = ad;
-				callSendAPI(messageData);
+
 			});
 	  });
   }
