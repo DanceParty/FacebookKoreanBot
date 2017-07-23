@@ -114,12 +114,8 @@ function sendTextMessage(recipientId, messageText) {
 				})
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
-					//var ad = '<a href="' + body.ad.url + '"><img src="' + body.ad.media.media_url.medium + '"/>' + body.ad.cta_mini + 'Hello World!</a>'
-					console.log("JSON DATA: ", parsedData);
-					console.log("body.ad.url: ", parsedData.ad.url)
-					console.log("body.ad.media.url: ", parsedData.ad.media.url)
-					console.log("body.ad.cta_mini: ", parsedData.ad.cta_mini);
-					//messageData.message.text = ad;
+					var ad = '<a href="' + parsedData.ad.url + '"><img src="' + parsedData.ad.media.url.medium + '"/>' + parsedData.ad.cta_mini + 'Hello World!</a>'
+					messageData.message.text = ad;
 					callSendAPI(messageData);
 				})
 
