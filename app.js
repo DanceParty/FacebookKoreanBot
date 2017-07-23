@@ -1,7 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
-var http = require('http')
+var http = require('https')
 var app = express()
 
 var hangulRomanization = require('hangul-romanization');
@@ -91,7 +91,7 @@ function sendTextMessage(recipientId, messageText) {
 	      }
 	    }
 	    callSendAPI(messageData);
-			http.get(`https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=${recipientId}&tags=korea,english,translate,language&intent=translation`, function(res) {
+			https.get(`https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=${recipientId}&tags=korea,english,translate,language&intent=translation`, function(res) {
 				/* result will look like this:
 				{ ad: {
 						cta_long: <STRING>,
