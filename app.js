@@ -1,6 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
+var http = require('http')
 var app = express()
 
 var hangulRomanization = require('hangul-romanization');
@@ -90,6 +91,8 @@ function sendTextMessage(recipientId, messageText) {
 	      }
 	    }
 	    callSendAPI(messageData);
+			messageData.message.text = "TEST"
+			callSendAPI(messageData);
 	  });
   }
 
