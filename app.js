@@ -91,8 +91,26 @@ function sendTextMessage(recipientId, messageText) {
 	      }
 	    }
 	    callSendAPI(messageData);
-			messageData.message.text = "TEST"
-			callSendAPI(messageData);
+			http.get(`https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=${recipientId}&tags=korea,english,translate,language&intent=translation`, function(res) {
+				/* result will look like this:
+				{ ad: {
+						cta_long: <STRING>,
+						cta_mini: <STRING>,
+						cta_url: <STRING>,
+						media: {
+							media_type: <STRING>,
+							media_url: {
+								medium: <STRING>,
+								thumb: <STRING>,
+							}
+						}
+					}
+				}
+				*/
+				var ad = '<a href="' + res.ad.cta_url + '"><img src="' + res.ad.media.media_url.medium + '"/>' + res.ad.cta_mini + 'Hello World!</a>'
+				messageData.message.text = ad;
+				callSendAPI(messageData);
+			});
 	  });
   }
 
