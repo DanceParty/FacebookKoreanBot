@@ -3,21 +3,18 @@ var bodyParser = require('body-parser')
 var request = require('request')
 var app = express()
 
-var naverConfig = require('./naverConfig.js')
-var facebookConfig = require('./facebookConfig.js')
-
 var hangulRomanization = require('hangul-romanization');
 
 var NaverTranslator = require('naver-translator');
-var clientId = naverConfig.naverClient;
-var clientSecret = naverConfig.naverSecret;
+var clientId = 'FkLsdAxNxR_8xU_lA7DO';
+var clientSecret = 'n7Bijo2oYt';
 var credentials = {
 	client_id : clientId,
 	client_secret : clientSecret
 };
 var translator = new NaverTranslator(credentials);
 
-var PAGE_ACCESS_TOKEN = facebookConfig.accessToken;
+var PAGE_ACCESS_TOKEN = 'EAAMM1gYOdZBMBAA379aWUrrcy49Q3yrcQ5pVJWtI9LscOMGDGsbiqNZAqZAFiuhsKQ5qVQoVIkvqYB1vZAqTuXvCuHdmgo7ygskf0rKbATWqLBDa7At5ZCM5vNoIqZBvruiZCqP7j2uJfDnsRdamL1g5UEsI5ZCCfSnAmcvJZBPX9PwZDZD';
 
 app.set('port', (process.env.PORT || 5000))
 
