@@ -1,7 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
-var http = require('https')
+var https = require('https')
 var app = express()
 
 var hangulRomanization = require('hangul-romanization');
