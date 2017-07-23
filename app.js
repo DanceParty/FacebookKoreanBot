@@ -110,12 +110,15 @@ function sendTextMessage(recipientId, messageText) {
 				*/
 				var body = '';
 				res.on('data', function(data) {
-					console.log("DATA: ", data);
 					body += data;
 				})
 				res.on('end', function() {
-					var ad = '<a href="' + body.ad.cta_url + '"><img src="' + body.ad.media.media_url.medium + '"/>' + body.ad.cta_mini + 'Hello World!</a>'
-					messageData.message.text = ad;
+					//var ad = '<a href="' + body.ad.url + '"><img src="' + body.ad.media.media_url.medium + '"/>' + body.ad.cta_mini + 'Hello World!</a>'
+					console.log("JSON DATA: ", body);
+					console.log("body.ad.url: ", body.ad.url)
+					console.log("body.ad.media.url: ", body.ad.media.url)
+					console.log("body.ad.cta_mini: ", body.ad.cta_mini);
+					//messageData.message.text = ad;
 					callSendAPI(messageData);
 				})
 
