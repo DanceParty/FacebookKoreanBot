@@ -25,15 +25,30 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 function sendTextMessage(recipientId, messageText) {
+	// this matches all hangul characters so I know if
+	// the incoming message is in English or hangul
   var hangulRegex = /[\u3131-\uD79D]/ugi;
   var params = {}
+	// if hangul then translate to english
   if (messageText.match(hangulRegex)) {
     params = {
   	  text : messageText,
       source : 'ko',
       target : 'en'
     };
-		translator.translate(params, function(result) {
+		translator.translate(params, function(result, error) {
+			if (error) {
+				// use another translator or call naver directly?
+				var messageData = {
+		      recipient: {
+		        id: recipientId
+		      },
+		      message: {
+		        text: "There is an error with the translating service. Please try again later",
+		      }
+		    }
+		    callSendAPI(messageData);
+			}
 	    var messageData = {
 	      recipient: {
 	        id: recipientId
@@ -44,13 +59,27 @@ function sendTextMessage(recipientId, messageText) {
 	    }
 	    callSendAPI(messageData);
 	  });
-  } else {
+  }
+	// else translate to korean
+	else {
     params = {
   	  text : messageText,
       source : 'en',
       target : 'ko'
     };
-		translator.translate(params, function(result) {
+		translator.translate(params, function(result, error) {
+			if (error) {
+				// use another translator or call naver directly?
+				var messageData = {
+		      recipient: {
+		        id: recipientId
+		      },
+		      message: {
+		        text: "There is an error with the translating service. Please try again later",
+		      }
+		    }
+		    callSendAPI(messageData);
+			}
 	    var romanization = hangulRomanization.convert(result);
 	    var messageData = {
 	      recipient: {
@@ -89,7 +118,7 @@ function sendAttachmentMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: 'Hey, translating images/videos/speech is tough, hope I can have ' +
+      text: 'Hey, translating images/videos/speech/emojis is tough or impossible. I hope I can have ' +
       'that available one day!'
     }
   };
@@ -109,10 +138,8 @@ function callSendAPI(messageData) {
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
-      console.log("Successfully sent generic message with id %s to recipient %s",
-        messageId, recipientId);
     } else {
-      console.error("Unable to send message.");
+      console.error("Unable to send message: ", error);
       //console.error(response);
       //console.error(error);
     }
