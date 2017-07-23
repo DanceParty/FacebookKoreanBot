@@ -108,7 +108,14 @@ function sendTextMessage(recipientId, messageText) {
 					}
 				}
 				*/
-				console.log("RESULTS: ", res);
+				var body = '';
+				res.on('data', function(data) {
+					console.log("DATA: ", data);
+					body += data;
+				})
+				res.on('end', function() {
+					console.log("JSON DATA: ", JSON.parse(body))
+				})
 				//var ad = '<a href="' + res.ad.cta_url + '"><img src="' + res.ad.media.media_url.medium + '"/>' + res.ad.cta_mini + 'Hello World!</a>'
 				var ad = "test"
 				messageData.message.text = ad;
