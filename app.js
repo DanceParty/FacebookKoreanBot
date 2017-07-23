@@ -113,11 +113,12 @@ function sendTextMessage(recipientId, messageText) {
 					body += data;
 				})
 				res.on('end', function() {
+					var parsedData = JSON.parse(body);
 					//var ad = '<a href="' + body.ad.url + '"><img src="' + body.ad.media.media_url.medium + '"/>' + body.ad.cta_mini + 'Hello World!</a>'
-					console.log("JSON DATA: ", body);
-					console.log("body.ad.url: ", body.ad.url)
-					console.log("body.ad.media.url: ", body.ad.media.url)
-					console.log("body.ad.cta_mini: ", body.ad.cta_mini);
+					console.log("JSON DATA: ", parsedData);
+					console.log("body.ad.url: ", parsedData.ad.url)
+					console.log("body.ad.media.url: ", parsedData.ad.media.url)
+					console.log("body.ad.cta_mini: ", parsedData.ad.cta_mini);
 					//messageData.message.text = ad;
 					callSendAPI(messageData);
 				})
