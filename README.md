@@ -8,6 +8,20 @@
 
 --------------------------------------------------------------------------------------------------------------------------------------
 
+## To Use
+```
+cd FacebookKoreanBot
+git add .
+git commit -m ""
+git push heroku master
+```
+
+Use the app
+
+```
+heroku logs -t
+```
+
 ## Built With
 
 * NodeJS
