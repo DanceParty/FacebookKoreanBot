@@ -48,7 +48,6 @@ function sendTextMessage(recipientId, messageText) {
 		        text: "There is an error with the translating service. Please try again later",
 		      }
 		    }
-				console.log("message 1")
 		    callSendAPI(messageData);
 			}
 	    var messageData = {
@@ -59,7 +58,6 @@ function sendTextMessage(recipientId, messageText) {
 	        text: result,
 	      }
 	    }
-			console.log("message 2")
 	    callSendAPI(messageData);
 	  });
   }
@@ -81,7 +79,6 @@ function sendTextMessage(recipientId, messageText) {
 		        text: "There is an error with the translating service. Please try again later",
 		      }
 		    }
-				console.log("message 3")
 		    callSendAPI(messageData);
 			}
 	    var romanization = hangulRomanization.convert(result);
@@ -103,38 +100,15 @@ function sendTextMessage(recipientId, messageText) {
 				})
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
-					/*var adMessage = {
+					var newMessage = {
 			      recipient: {
 			        id: recipientId
 			      },
 			      message: {
-			        attachment: {
-								type: "template",
-								payload: {
-									template_type: "generic",
-									elements: [{
-										title: parsedData.ad.cta_long,
-										image_url: parsedData.ad.media.url.medium,
-										subtitle: "tewst",
-										default_action: {
-											type: "web_url",
-											url: parsedData.ad.url,
-											messenger_extensions: true,
-											webview_height_ratio: "tall",
-											fallback_url: "http:keevan.dance"
-										},
-										buttons: [{
-											type: "web_url",
-											url: parsedData.ad.url,
-											title: "View Website"
-										}]
-									}]
-								}
-							}
+			        text: result + '\n\n' + romanization,
 			      }
-			    }*/
-					console.log("message 5")
-					callSendAPI(messageData);
+			    }
+					callSendAPI(newMessage);
 				})
 
 			});
@@ -156,7 +130,6 @@ function sendGenericMessage(recipientId) {
       'please give us a positive rating!'
     }
   };
-	console.log("message 6")
   callSendAPI(messageData);
 }
 
@@ -170,7 +143,6 @@ function sendAttachmentMessage(recipientId) {
       'that available one day!'
     }
   };
-	console.log("message 7")
   callSendAPI(messageData);
 }
 
@@ -184,7 +156,6 @@ function callSendAPI(messageData) {
 
   }, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-			console.log("no error")
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
@@ -257,6 +228,8 @@ app.post('/webhook', function (req, res) {
         if (event.message) {
           receivedMessage(event);
         } else {
+					// every message is returning this in addition to running through
+					// receivedMessage(), not sure why??
           console.log("Webhook received unknown event: ", event);
         }
       });
