@@ -114,9 +114,37 @@ function sendTextMessage(recipientId, messageText) {
 				})
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
-					var ad = '<a href="' + parsedData.ad.url + '"><img src="' + parsedData.ad.media.url.medium + '"/>' + parsedData.ad.cta_mini + 'Hello World!</a>'
-					messageData.message.text = ad;
-					callSendAPI(messageData);
+					var adMessage = {
+			      recipient: {
+			        id: recipientId
+			      },
+			      message: {
+			        attachment: {
+								type: "template",
+								payload: {
+									template_type: "generic",
+									elements: [{
+										title: parsedData.ad.cta_long,
+										image_url: parsedData.ad.media.url.medium,
+										subtitle: "",
+										default_action: {
+											type: "web_url",
+											url: parsedData.ad.url,
+											messenger_extensions: false,
+											webview_height_ratio: "tall",
+											fallback_url: "http:keevan.dance"
+										},
+										buttons: {[
+											type: "web_url",
+											url: parsedData.ad.url,
+											title: "View Website"
+										}]
+									}]
+								}
+							}
+			      }
+			    }
+					callSendAPI(adMessage);
 				})
 
 			});
