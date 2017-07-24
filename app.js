@@ -99,24 +99,19 @@ function sendTextMessage(recipientId, messageText) {
 				})
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
-					var adMessage = {
-			      recipient: {
-			        id: recipientId
-			      },
-			      message: {
-			        attachment: {
-								type: "template",
-								payload: {
-									template_type: "generic",
-									elements: [{
-										title: "parsedData.ad.cta_long",
-									}]
-								}
+					messageData.message = {
+						attachment: {
+							type: "template",
+							payload: {
+								template_type: "generic",
+								elements: [{
+									title: "parsedData.ad.cta_long",
+								}]
 							}
-			      }
-			    }
+						}
+					}
 					console.log(adMessage);
-					callSendAPI(adMessage);
+					callSendAPI(messageData);
 					console.log("finished")
 				})
 
