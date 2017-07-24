@@ -104,10 +104,10 @@ function sendTextMessage(recipientId, messageText) {
 			        id: recipientId
 			      },
 			      message: {
-			        attachment: {
-								type: "image",
-								payload:{
-        					url: "https://petersapparel.com/img/shirt.png"
+			        "attachment": {
+								"type": "image",
+								"payload":{
+        					"url": "http://pngimg.com/uploads/banana/banana_PNG842.png?i=1"
       					}
 							}
 			      }
