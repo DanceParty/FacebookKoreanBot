@@ -92,21 +92,16 @@ function sendTextMessage(recipientId, messageText) {
 	    }
 	    callSendAPI(messageData);
 			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
+
 			https.get(getUrl, function(res) {
 				var body = '';
 				res.on('data', function(data) {
 					body += data;
-				})
+				});
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
-					messageData.message = {
-						text: "test message"
-					}
-					console.log(messageData);
 					callSendAPI(messageData);
-					console.log("finished")
-				})
-
+				});
 			});
 	  });
   }
@@ -157,9 +152,7 @@ function callSendAPI(messageData) {
       var messageId = body.message_id;
 
     } else {
-      console.error("Unable to send message: ", error);
-      console.error("response: ", response);
-      console.error("body: ", body);
+      console.error("Unable to send message: ", body.error.message);
     }
   });
 }
