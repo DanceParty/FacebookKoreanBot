@@ -110,7 +110,7 @@ function sendTextMessage(recipientId, messageText) {
 							}
 						}
 					}
-					console.log(adMessage);
+					console.log(messageData);
 					callSendAPI(messageData);
 					console.log("finished")
 				})
