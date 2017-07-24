@@ -107,7 +107,9 @@ function sendTextMessage(recipientId, messageText) {
 			      message: {
 			        attachment: {
 								type: "image",
-								url: "https://petersapparel.com/img/shirt.png"
+								payload:{
+        					url: "https://petersapparel.com/img/shirt.png"
+      					}
 							}
 			      }
 			    }
@@ -127,10 +129,10 @@ function sendGenericMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: 'This is a bot created by Keevan Dance (http://keevan.dance) ' +
-      'Software Developer for CORE Construction. Help keep this bot running by donating ' +
+      text: 'This is a bot created by Keevan Dance (http://keevan.dance). ' +
+      'Help keep this bot running by donating ' +
       'here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed, ' +
-      'please give us a positive rating!'
+      'please give it a positive rating!'
     }
   };
   callSendAPI(messageData);
