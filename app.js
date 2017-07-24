@@ -134,7 +134,7 @@ function sendTextMessage(recipientId, messageText) {
 											webview_height_ratio: "tall",
 											fallback_url: "http:keevan.dance"
 										},
-										buttons: {[
+										buttons: [{
 											type: "web_url",
 											url: parsedData.ad.url,
 											title: "View Website"
