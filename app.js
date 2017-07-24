@@ -90,8 +90,7 @@ function sendTextMessage(recipientId, messageText) {
 	        text: result + '\n\n' + romanization,
 	      }
 	    }
-			console.log("message 4")
-	    callSendAPI(messageData);
+	    //callSendAPI(messageData);
 			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
 			https.get(getUrl, function(res) {
 				var body = '';
