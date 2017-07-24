@@ -100,15 +100,7 @@ function sendTextMessage(recipientId, messageText) {
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
 					messageData.message = {
-						attachment: {
-							type: "template",
-							payload: {
-								template_type: "generic",
-								elements: [{
-									title: "parsedData.ad.cta_long",
-								}]
-							}
-						}
+						text: "test message"
 					}
 					console.log(messageData);
 					callSendAPI(messageData);
