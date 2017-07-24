@@ -93,21 +93,6 @@ function sendTextMessage(recipientId, messageText) {
 	    callSendAPI(messageData);
 			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
 			https.get(getUrl, function(res) {
-				/* result will look like this:
-				{ ad: {
-						cta_long: <STRING>,
-						cta_mini: <STRING>,
-						cta_url: <STRING>,
-						media: {
-							media_type: <STRING>,
-							media_url: {
-								medium: <STRING>,
-								thumb: <STRING>,
-							}
-						}
-					}
-				}
-				*/
 				var body = '';
 				res.on('data', function(data) {
 					body += data;
@@ -144,7 +129,9 @@ function sendTextMessage(recipientId, messageText) {
 							}
 			      }
 			    }
+					console.log(adMessage);
 					callSendAPI(adMessage);
+					console.log("finished")
 				})
 
 			});
