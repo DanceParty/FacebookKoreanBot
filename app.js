@@ -48,6 +48,7 @@ function sendTextMessage(recipientId, messageText) {
 		        text: "There is an error with the translating service. Please try again later",
 		      }
 		    }
+				console.log("message 1")
 		    callSendAPI(messageData);
 			}
 	    var messageData = {
@@ -58,6 +59,7 @@ function sendTextMessage(recipientId, messageText) {
 	        text: result,
 	      }
 	    }
+			console.log("message 2")
 	    callSendAPI(messageData);
 	  });
   }
@@ -79,6 +81,7 @@ function sendTextMessage(recipientId, messageText) {
 		        text: "There is an error with the translating service. Please try again later",
 		      }
 		    }
+				console.log("message 3")
 		    callSendAPI(messageData);
 			}
 	    var romanization = hangulRomanization.convert(result);
@@ -90,6 +93,7 @@ function sendTextMessage(recipientId, messageText) {
 	        text: result + '\n\n' + romanization,
 	      }
 	    }
+			console.log("message 4")
 	    callSendAPI(messageData);
 			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
 			https.get(getUrl, function(res) {
@@ -129,6 +133,7 @@ function sendTextMessage(recipientId, messageText) {
 							}
 			      }
 			    }*/
+					console.log("message 5")
 					callSendAPI(messageData);
 				})
 
@@ -151,7 +156,7 @@ function sendGenericMessage(recipientId) {
       'please give us a positive rating!'
     }
   };
-
+	console.log("message 6")
   callSendAPI(messageData);
 }
 
@@ -165,11 +170,12 @@ function sendAttachmentMessage(recipientId) {
       'that available one day!'
     }
   };
-
+	console.log("message 7")
   callSendAPI(messageData);
 }
 
 function callSendAPI(messageData) {
+	console.log("current data: ", messageData);
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -177,9 +183,8 @@ function callSendAPI(messageData) {
     json: messageData
 
   }, function (error, response, body) {
-		console.log("Error: ", error);
-		console.log("response.statusCode: ", response.statusCode)
-    if (!error && response.statusCode == 200) {
+    if (!error && response.statusCode === 200) {
+			console.log("no error")
       var recipientId = body.recipient_id;
       var messageId = body.message_id;
 
