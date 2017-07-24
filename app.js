@@ -105,7 +105,10 @@ function sendTextMessage(recipientId, messageText) {
 			        id: recipientId
 			      },
 			      message: {
-			        text: result + '\n\n' + romanization,
+			        attachment: {
+								type: "image",
+								url: "https://petersapparel.com/img/shirt.png"
+							}
 			      }
 			    }
 					callSendAPI(newMessage);
