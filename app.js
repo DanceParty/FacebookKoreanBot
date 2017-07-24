@@ -92,16 +92,46 @@ function sendTextMessage(recipientId, messageText) {
 	    }
 	    callSendAPI(messageData);
 			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
-
 			https.get(getUrl, function(res) {
 				var body = '';
 				res.on('data', function(data) {
 					body += data;
-				});
+				})
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
+					/*var adMessage = {
+			      recipient: {
+			        id: recipientId
+			      },
+			      message: {
+			        attachment: {
+								type: "template",
+								payload: {
+									template_type: "generic",
+									elements: [{
+										title: parsedData.ad.cta_long,
+										image_url: parsedData.ad.media.url.medium,
+										subtitle: "tewst",
+										default_action: {
+											type: "web_url",
+											url: parsedData.ad.url,
+											messenger_extensions: true,
+											webview_height_ratio: "tall",
+											fallback_url: "http:keevan.dance"
+										},
+										buttons: [{
+											type: "web_url",
+											url: parsedData.ad.url,
+											title: "View Website"
+										}]
+									}]
+								}
+							}
+			      }
+			    }*/
 					callSendAPI(messageData);
-				});
+				})
+
 			});
 	  });
   }
@@ -152,7 +182,9 @@ function callSendAPI(messageData) {
       var messageId = body.message_id;
 
     } else {
-      console.error("Unable to send message: ", body.error.message);
+      console.error("Unable to send message: ", error);
+      //console.error(response);
+      //console.error(error);
     }
   });
 }
