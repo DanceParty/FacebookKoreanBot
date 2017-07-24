@@ -109,21 +109,7 @@ function sendTextMessage(recipientId, messageText) {
 								payload: {
 									template_type: "generic",
 									elements: [{
-										title: parsedData.ad.cta_long,
-										image_url: parsedData.ad.media.url.medium,
-										subtitle: "",
-										default_action: {
-											type: "web_url",
-											url: parsedData.ad.url,
-											messenger_extensions: false,
-											webview_height_ratio: "tall",
-											fallback_url: "http:keevan.dance"
-										},
-										buttons: [{
-											type: "web_url",
-											url: parsedData.ad.url,
-											title: "View Website"
-										}]
+										title: "parsedData.ad.cta_long",
 									}]
 								}
 							}
