@@ -90,13 +90,15 @@ function sendTextMessage(recipientId, messageText) {
 	        text: result + '\n\n' + romanization,
 	      }
 	    }
-	    //callSendAPI(messageData);
+	    callSendAPI(messageData);
 			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
 			https.get(getUrl, function(res) {
 				var body = '';
 				res.on('data', function(data) {
 					body += data;
 				})
+				// I think this is not running by the time th ASYNC function is done.
+				// try and move it outside of this scope for better results :D
 				res.on('end', function() {
 					var parsedData = JSON.parse(body);
 					var newMessage = {
@@ -142,7 +144,7 @@ function sendTextMessage(recipientId, messageText) {
 							}
 			      }*/
 			    }
-					callSendAPI(newMessage);
+					//callSendAPI(newMessage);
 				})
 
 			});
