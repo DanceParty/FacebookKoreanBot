@@ -104,11 +104,28 @@ function sendTextMessage(recipientId, messageText) {
 			        id: recipientId
 			      },
 			      message: {
-			        "attachment": {
-								"type": "image",
-								"payload":{
-        					"url": "http://pngimg.com/uploads/banana/banana_PNG842.png?i=1"
-      					}
+			        attachment: {
+								type: "template",
+								payload: {
+									template_type: "generic",
+									elements: [{
+										title: parsedData.ad.cta_long,
+										image_url: parsedData.ad.media.url.medium,
+										subtitle: "tewst",
+										default_action: {
+											type: "web_url",
+											url: parsedData.ad.url,
+											messenger_extensions: true,
+											webview_height_ratio: "tall",
+											fallback_url: "http:keevan.dance"
+										},
+										buttons: [{
+											type: "web_url",
+											url: parsedData.ad.url,
+											title: "View Website"
+										}]
+									}]
+								}
 							}
 			      }
 			    }
@@ -128,10 +145,9 @@ function sendGenericMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: 'This is a bot created by Keevan Dance (http://keevan.dance). ' +
-      'Help keep this bot running by donating ' +
+      text: 'This is a bot created by Keevan Dance (http://keevan.dance). Help keep this bot running by donating ' +
       'here: https://www.paypal.me/keevandance. If this bot helped you translate what you needed, ' +
-      'please give it a positive rating!'
+      'please give us a positive rating!'
     }
   };
   callSendAPI(messageData);
