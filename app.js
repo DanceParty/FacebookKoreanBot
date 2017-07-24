@@ -103,7 +103,20 @@ function sendTextMessage(recipientId, messageText) {
 			      recipient: {
 			        id: recipientId
 			      },
-			      message: {
+						"message":{
+					    "attachment":{
+					      "type":"template",
+					      "payload":{
+					        "template_type":"generic",
+					        "elements":[
+					           {
+					            "title":"Hi",
+					          }
+					        ]
+					      }
+					    }
+  					}
+			      /*message: {
 			        attachment: {
 								type: "template",
 								payload: {
@@ -127,7 +140,7 @@ function sendTextMessage(recipientId, messageText) {
 									}]
 								}
 							}
-			      }
+			      }*/
 			    }
 					callSendAPI(newMessage);
 				})
