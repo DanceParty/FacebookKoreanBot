@@ -107,6 +107,9 @@ function sendTextMessage(recipientId, messageText) {
 						// try and move it outside of this scope for better results :D
 						res.on('end', function() {
 							var parsedData = JSON.parse(body);
+							var ctaLong = parsedData.ad.cta_long;
+							var mediumImage = parsedData.ad.media.url.medium;
+							var adUrl = parsedData.ad.url;
 							var newMessage = {
 					      recipient: {
 					        id: recipientId
@@ -118,23 +121,18 @@ function sendTextMessage(recipientId, messageText) {
 							        "template_type":"generic",
 							        "elements":[
 							           {
-							            "title":"Welcome to Peter\'s Hats",
-							            "image_url":"https://images.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png",
-							            "subtitle":"We\'ve got the right hat for everyone.",
+							            "title": ctaLong,
+							            "image_url": mediumImage,
 							            "default_action": {
 							              "type": "web_url",
-							              "url": "https://google.com",
+							              "url": adUrl,
 							              "webview_height_ratio": "tall"
 							            },
 							            "buttons":[
 							              {
 							                "type":"web_url",
-							                "url":"https://google.com",
+							                "url": adUrl,
 							                "title":"View Website"
-							              },{
-							                "type":"postback",
-							                "title":"Start Chatting",
-							                "payload":"DEVELOPER_DEFINED_PAYLOAD"
 							              }
 							            ]
 							          }
