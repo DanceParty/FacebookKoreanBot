@@ -108,7 +108,7 @@ function sendTextMessage(recipientId, messageText) {
 						res.on('end', function() {
 							var parsedData = JSON.parse(body);
 							var ctaLong = parsedData.ad.cta_long;
-							var mediumImage = parsedData.ad.media.url.medium;
+							var thumbImage = parsedData.ad.media.url.thumb;
 							var adUrl = parsedData.ad.url;
 							var newMessage = {
 					      recipient: {
@@ -122,7 +122,7 @@ function sendTextMessage(recipientId, messageText) {
 							        "elements":[
 							           {
 							            "title": ctaLong,
-							            "image_url": mediumImage,
+							            "image_url": thumbImage,
 							            "default_action": {
 							              "type": "web_url",
 							              "url": adUrl,
@@ -140,32 +140,6 @@ function sendTextMessage(recipientId, messageText) {
 							      }
 							    }
 							  }
-								// THIS IS WHAT WE EVENTUALLY WANT
-					      /*message: {
-					        attachment: {
-										type: "template",
-										payload: {
-											template_type: "generic",
-											elements: [{
-												title: parsedData.ad.cta_long,
-												image_url: parsedData.ad.media.url.medium,
-												subtitle: "tewst",
-												default_action: {
-													type: "web_url",
-													url: parsedData.ad.url,
-													messenger_extensions: true,
-													webview_height_ratio: "tall",
-													fallback_url: "http:keevan.dance"
-												},
-												buttons: [{
-													type: "web_url",
-													url: parsedData.ad.url,
-													title: "View Website"
-												}]
-											}]
-										}
-									}
-					      }*/
 					    }
 							// send the messages
 							callSendAPI(newMessage);
