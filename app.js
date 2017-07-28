@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 // Process application/json
 app.use(bodyParser.json())
 
-function getAdAPIResult() {
+function getAdAPIResult(recipientId) {
 	// API Url
 	let getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
 	// call the ad API
@@ -160,7 +160,7 @@ function sendTextMessage(recipientId, messageText) {
 		      }
 		    }
 				// Url for the API
-				var newMessage = getAdAPIResult();
+				var newMessage = getAdAPIResult(recipientId);
 				// send the messages
 				callSendAPI(newMessage);
 				callSendAPI(messageData);
