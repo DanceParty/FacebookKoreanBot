@@ -80,78 +80,86 @@ function sendTextMessage(recipientId, messageText) {
 		      }
 		    }
 		    callSendAPI(messageData);
-			}
-	    var romanization = hangulRomanization.convert(result);
-	    var messageData = {
-	      recipient: {
-	        id: recipientId
-	      },
-	      message: {
-	        text: result + '\n\n' + romanization,
-	      }
-	    }
-	    callSendAPI(messageData);
-			getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
-			https.get(getUrl, function(res) {
-				var body = '';
-				res.on('data', function(data) {
-					body += data;
-				})
-				// I think this is not running by the time th ASYNC function is done.
-				// try and move it outside of this scope for better results :D
-				res.on('end', function() {
-					var parsedData = JSON.parse(body);
-					var newMessage = {
-			      recipient: {
-			        id: recipientId
-			      },
-						"message":{
-					    "attachment":{
-					      "type":"template",
-					      "payload":{
-					        "template_type":"generic",
-					        "elements":[
-					           {
-					            "title":"Hi",
-					          }
-					        ]
-					      }
-					    }
-  					}
-			      /*message: {
-			        attachment: {
-								type: "template",
-								payload: {
-									template_type: "generic",
-									elements: [{
-										title: parsedData.ad.cta_long,
-										image_url: parsedData.ad.media.url.medium,
-										subtitle: "tewst",
-										default_action: {
-											type: "web_url",
-											url: parsedData.ad.url,
-											messenger_extensions: true,
-											webview_height_ratio: "tall",
-											fallback_url: "http:keevan.dance"
-										},
-										buttons: [{
-											type: "web_url",
-											url: parsedData.ad.url,
-											title: "View Website"
-										}]
-									}]
-								}
-							}
-			      }*/
-			    }
-					//callSendAPI(newMessage);
-				})
+			} else {
+				var romanization = hangulRomanization.convert(result);
 
-			});
+				/* Translation Message */
+				var messageData = {
+		      recipient: {
+		        id: recipientId
+		      },
+		      message: {
+		        text: result + '\n\n' + romanization,
+		      }
+		    }
+				// Url for the API
+				getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
+				// call the ad API
+				https.get(getUrl, function(res, err) {
+					if (err) {
+						console.log("----------ERROR WITH AD API-----------")
+					} else {
+						var body = '';
+						res.on('data', function(data) {
+							body += data;
+						})
+						// I think this is not running by the time th ASYNC function is done.
+						// try and move it outside of this scope for better results :D
+						res.on('end', function() {
+							var parsedData = JSON.parse(body);
+							var newMessage = {
+					      recipient: {
+					        id: recipientId
+					      },
+								"message":{
+							    "attachment":{
+							      "type":"template",
+							      "payload":{
+							        "template_type":"generic",
+							        "elements":[
+							           {
+							            "title":"Hi",
+							          }
+							        ]
+							      }
+							    }
+		  					}
+								// THIS IS WHAT WE EVENTUALLY WANT
+					      /*message: {
+					        attachment: {
+										type: "template",
+										payload: {
+											template_type: "generic",
+											elements: [{
+												title: parsedData.ad.cta_long,
+												image_url: parsedData.ad.media.url.medium,
+												subtitle: "tewst",
+												default_action: {
+													type: "web_url",
+													url: parsedData.ad.url,
+													messenger_extensions: true,
+													webview_height_ratio: "tall",
+													fallback_url: "http:keevan.dance"
+												},
+												buttons: [{
+													type: "web_url",
+													url: parsedData.ad.url,
+													title: "View Website"
+												}]
+											}]
+										}
+									}
+					      }*/
+					    }
+						})
+					}
+				});
+				// send the messages
+				callSendAPI(newMessage);
+				callSendAPI(messageData);
+			}
 	  });
   }
-
-
 }
 
 function sendGenericMessage(recipientId) {
