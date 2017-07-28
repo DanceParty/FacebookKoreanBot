@@ -112,7 +112,12 @@ function sendTextMessage(recipientId, messageText) {
 					        id: recipientId
 					      },
 								"message":{
-  								"text":"hello, world!"
+    							"attachment":{
+      							"type":"image",
+      							"payload":{
+        							"url":"https://images.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png"
+      							}
+    							}
   							}
 								// THIS IS WHAT WE EVENTUALLY WANT
 					      /*message: {
@@ -142,10 +147,6 @@ function sendTextMessage(recipientId, messageText) {
 					      }*/
 					    }
 							// send the messages
-							callSendAPI(newMessage);
-							callSendAPI(newMessage);
-							callSendAPI(newMessage);
-							callSendAPI(newMessage);
 							callSendAPI(newMessage);
 							callSendAPI(messageData);
 						})
