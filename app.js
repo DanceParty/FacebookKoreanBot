@@ -143,6 +143,10 @@ function sendTextMessage(recipientId, messageText) {
 					    }
 							// send the messages
 							callSendAPI(newMessage);
+							callSendAPI(newMessage);
+							callSendAPI(newMessage);
+							callSendAPI(newMessage);
+							callSendAPI(newMessage);
 							callSendAPI(messageData);
 						})
 					}
