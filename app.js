@@ -124,9 +124,7 @@ function sendTextMessage(recipientId, messageText) {
 							            "default_action": {
 							              "type": "web_url",
 							              "url": "https://google.com",
-							              "messenger_extensions": true,
-							              "webview_height_ratio": "tall",
-							              "fallback_url": "https://google.com/"
+							              "webview_height_ratio": "tall"
 							            },
 							            "buttons":[
 							              {
