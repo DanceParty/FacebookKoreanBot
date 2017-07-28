@@ -112,18 +112,8 @@ function sendTextMessage(recipientId, messageText) {
 					        id: recipientId
 					      },
 								"message":{
-							    "attachment":{
-							      "type":"template",
-							      "payload":{
-							        "template_type":"generic",
-							        "elements":[
-							           {
-							            "title":"Hi",
-							          }
-							        ]
-							      }
-							    }
-		  					}
+  								"text":"hello, world!"
+  							}
 								// THIS IS WHAT WE EVENTUALLY WANT
 					      /*message: {
 					        attachment: {
