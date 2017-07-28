@@ -115,18 +115,30 @@ function sendTextMessage(recipientId, messageText) {
 							    "attachment":{
 							      "type":"template",
 							      "payload":{
-							        "template_type":"button",
-							        "text":"What do you want to do next?",
-							        "buttons":[
-							          {
-							            "type":"web_url",
-							            "url":"https://google.com",
-							            "title":"Show Website"
-							          },
-							          {
-							            "type":"postback",
-							            "title":"Start Chatting",
-							            "payload":"USER_DEFINED_PAYLOAD"
+							        "template_type":"generic",
+							        "elements":[
+							           {
+							            "title":"Welcome to Peter\'s Hats",
+							            "image_url":"https://images.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png",
+							            "subtitle":"We\'ve got the right hat for everyone.",
+							            "default_action": {
+							              "type": "web_url",
+							              "url": "https://google.com",
+							              "messenger_extensions": true,
+							              "webview_height_ratio": "tall",
+							              "fallback_url": "https://google.com/"
+							            },
+							            "buttons":[
+							              {
+							                "type":"web_url",
+							                "url":"https://google.com",
+							                "title":"View Website"
+							              },{
+							                "type":"postback",
+							                "title":"Start Chatting",
+							                "payload":"DEVELOPER_DEFINED_PAYLOAD"
+							              }
+							            ]
 							          }
 							        ]
 							      }
