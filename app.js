@@ -112,13 +112,26 @@ function sendTextMessage(recipientId, messageText) {
 					        id: recipientId
 					      },
 								"message":{
-    							"attachment":{
-      							"type":"image",
-      							"payload":{
-        							"url":"https://images.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png"
-      							}
-    							}
-  							}
+							    "attachment":{
+							      "type":"template",
+							      "payload":{
+							        "template_type":"button",
+							        "text":"What do you want to do next?",
+							        "buttons":[
+							          {
+							            "type":"web_url",
+							            "url":"https://google.com",
+							            "title":"Show Website"
+							          },
+							          {
+							            "type":"postback",
+							            "title":"Start Chatting",
+							            "payload":"USER_DEFINED_PAYLOAD"
+							          }
+							        ]
+							      }
+							    }
+							  }
 								// THIS IS WHAT WE EVENTUALLY WANT
 					      /*message: {
 					        attachment: {
