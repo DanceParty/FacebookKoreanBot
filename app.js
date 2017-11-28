@@ -13,8 +13,8 @@ var facebookConfig = require('./config/facebook-config.js')
 console.log('** Naver Config:', naverConfig)
 
 var credentials = {
-	client_id : naverConfig.naverClient,
-	client_secret : naverConfig.naverSecret
+	client_id : naverConfig.config.naverClient,
+	client_secret : naverConfig.config.naverSecret
 };
 
 var PAGE_ACCESS_TOKEN = facebookConfig.pageAccessToken
@@ -206,7 +206,6 @@ function sendAttachmentMessage(recipientId) {
 }
 
 function callSendAPI(messageData) {
-	console.log("current data: ", messageData);
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
@@ -289,7 +288,6 @@ app.post('/webhook', function (req, res) {
         } else {
 					// every message is returning this in addition to running through
 					// receivedMessage(), not sure why??
-          console.log("Webhook received unknown event: ", event);
         }
       });
     });
