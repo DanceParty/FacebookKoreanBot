@@ -43,21 +43,8 @@ function sendTextMessage(recipientId, messageText) {
 	// this matches all hangul characters so I know if
 	// the incoming message is in English or hangul
   var hangulRegex = /[\u3131-\uD79D]/ugi;
-  var params = {}
+  var params = messageText.match(hangulRegex) ? { text : messageText, source : 'ko', target : 'en' } : { text : messageText, source : 'en', target : 'ko' }
 	// if hangul then translate to english
-  if (messageText.match(hangulRegex)) {
-    params = {
-  	  text : messageText,
-      source : 'ko',
-      target : 'en'
-    };
-  } else {
-    params = {
-  	  text : messageText,
-      source : 'en',
-      target : 'ko'
-    };
-  }
   translator.translate(params, function(res, err) {
     if (err) {
       console.log('** error:', err)
@@ -67,7 +54,7 @@ function sendTextMessage(recipientId, messageText) {
           id: recipientId
         },
         message: {
-          text: errorMessage,
+          text: errMessage,
         }
       }
       callSendAPI(messageData);
