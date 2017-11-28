@@ -65,7 +65,7 @@ function sendTextMessage(recipientId, messageText) {
           messageData.message.text = errMessage
           callSendAPI(messageData);
         }
-        var romanization = hangulRomanization.convert(res);
+        var romanization = hangulRomanization.convert(translation.translatedText);
         messageData.message.text = translation.translatedText + '\n\n' + romanization
         callSendAPI(messageData);
         console.log(translation.translatedText);
