@@ -34,6 +34,12 @@ app.use(bodyParser.json())
 // Where:
 //		Returning an advertisement 20% of the time
 
+function handleError(error) {
+  if (error.errorCode === '010') {
+    return "Translation limit reached. Please try again tomorrow."
+  }
+}
+
 function mathRandom() {
 	var num = Math.random();
 	if (num > 0.8) {
@@ -58,13 +64,14 @@ function sendTextMessage(recipientId, messageText) {
 		translator.translate(params, function(result, error) {
 			if (error) {
         console.log("** ERROR1:", error)
+        var errorMessage = handleError(error)
 				// use another translator or call naver directly?
 				var messageData = {
 		      recipient: {
 		        id: recipientId
 		      },
 		      message: {
-		        text: "There is an error with the translating service. Please try again later",
+		        text: errorMessage,
 		      }
 		    }
 		    callSendAPI(messageData);
@@ -89,14 +96,15 @@ function sendTextMessage(recipientId, messageText) {
     };
 		translator.translate(params, function(result, error) {
 			if (error) {
-        console.log("** ERROR2:", error)
+        console.log("** ERROR1:", error)
+        var errorMessage = handleError(error)
 				// use another translator or call naver directly?
 				var messageData = {
 		      recipient: {
 		        id: recipientId
 		      },
 		      message: {
-		        text: "There is an error with the translating service. Please try again later",
+		        text: errorMessage,
 		      }
 		    }
 		    callSendAPI(messageData);
