@@ -12,6 +12,9 @@ var helpers = require('./src/helpers.js')
 
 var naverConfig = require('./config/naver-config.js')
 var facebookConfig = require('./config/facebook-config.js')
+var apiKey = require('./config/google-config.js')
+
+var googleTranslate = require('google-translate')(apiKey.apiKey);
 
 
 var credentials = {
@@ -44,43 +47,34 @@ function sendTextMessage(recipientId, messageText) {
 	// the incoming message is in English or hangul
   var hangulRegex = /[\u3131-\uD79D]/ugi;
   var params = messageText.match(hangulRegex) ? { text : messageText, source : 'ko', target : 'en' } : { text : messageText, source : 'en', target : 'ko' }
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+  }
 	// if hangul then translate to english
   translator.translate(params, function(res, err) {
     if (err) {
-      console.log('** error:', err)
-      var errMessage = helpers.handleError(err)
-      var messageData = {
-        recipient: {
-          id: recipientId
-        },
-        message: {
-          text: errMessage,
+      googleTranslate.translate(params.text, params.target, function(err, translation) {
+        if (err) {
+          console.log('** google error:', err)
+          var errMessage = helpers.handleError(err)
+          messageData.message.text = errMessage
+          callSendAPI(messageData);
         }
-      }
-      callSendAPI(messageData);
+
+        messageData.message.text = translation.translatedText
+        callSendAPI(messageData);
+        console.log(translation.translatedText);
+      });
     } else {
-      var messageData = {}
       if (params.source === 'ko') {
-        messageData = {
-          recipient: {
-            id: recipientId
-          },
-          message: {
-            text: result,
-          }
-        }
+        messageData.message.text = res
       } else {
         var romanization = hangulRomanization.convert(result);
 
         /* Translation Message */
-        messageData = {
-          recipient: {
-            id: recipientId
-          },
-          message: {
-            text: result + '\n\n' + romanization,
-          }
-        }
+        messageData.message.text = res + '\n\n' + romanization
       }
       callSendAPI(messageData);
     }
