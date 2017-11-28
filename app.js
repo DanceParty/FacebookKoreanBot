@@ -1,23 +1,24 @@
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
+var hangulRomanization = require('hangul-romanization');
+var NaverTranslator = require('naver-translator');
+
 var app = express()
 
-var naverConfig = require('./naverConfig.js')
-var facebookConfig = require('./facebookConfig.js')
+var naverConfig = require('./config/naver-config.js')
+var facebookConfig = require('./config/facebook-config.js')
 
-var hangulRomanization = require('hangul-romanization');
 
-var NaverTranslator = require('naver-translator');
-var clientId = naverConfig.naverClient;
-var clientSecret = naverConfig.naverSecret;
 var credentials = {
-	client_id : clientId,
-	client_secret : clientSecret
+	client_id : naverConfig.naverClient,
+	client_secret : naverConfig.naverSecret
 };
-var translator = new NaverTranslator(credentials);
 
-var PAGE_ACCESS_TOKEN = facebookConfig.accessToken;
+var PAGE_ACCESS_TOKEN = facebookConfig.pageAccessToken
+
+
+var translator = new NaverTranslator(credentials)
 
 app.set('port', (process.env.PORT || 5000))
 
