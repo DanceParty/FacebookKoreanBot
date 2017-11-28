@@ -15,7 +15,7 @@ var credentials = {
 	client_secret : naverConfig.config.naverSecret
 };
 
-var PAGE_ACCESS_TOKEN = facebookConfig.pageAccessToken
+var PAGE_ACCESS_TOKEN = facebookConfig.config.pageAccessToken
 
 
 var translator = new NaverTranslator(credentials)
@@ -43,7 +43,7 @@ function mathRandom() {
 }
 
 function sendTextMessage(recipientId, messageText) {
-  console.log("HELLO WE ARE HERE")
+
 	// this matches all hangul characters so I know if
 	// the incoming message is in English or hangul
   var hangulRegex = /[\u3131-\uD79D]/ugi;
@@ -57,6 +57,7 @@ function sendTextMessage(recipientId, messageText) {
     };
 		translator.translate(params, function(result, error) {
 			if (error) {
+        console.log("** ERROR1:", error)
 				// use another translator or call naver directly?
 				var messageData = {
 		      recipient: {
@@ -88,6 +89,7 @@ function sendTextMessage(recipientId, messageText) {
     };
 		translator.translate(params, function(result, error) {
 			if (error) {
+        console.log("** ERROR2:", error)
 				// use another translator or call naver directly?
 				var messageData = {
 		      recipient: {
