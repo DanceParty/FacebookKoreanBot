@@ -10,7 +10,7 @@ var naverConfig = require('./config/naver-config.js')
 var facebookConfig = require('./config/facebook-config.js')
 
 
-console.log(naverConfig)
+console.log('** Naver Config:', naverConfig)
 
 var credentials = {
 	client_id : naverConfig.naverClient,
