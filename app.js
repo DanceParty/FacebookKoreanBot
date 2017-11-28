@@ -49,8 +49,11 @@ function sendTextMessage(recipientId, messageText) {
   var params = messageText.match(hangulRegex) ? { text : messageText, source : 'ko', target : 'en' } : { text : messageText, source : 'en', target : 'ko' }
   var messageData = {
     recipient: {
-      id: recipientId
+      id: recipientId,
     },
+    message: {
+      text: null
+    }
   }
 	// if hangul then translate to english
   translator.translate(params, function(res, err) {
