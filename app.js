@@ -65,7 +65,7 @@ function sendTextMessage(recipientId, messageText) {
           messageData.message.text = errMessage
           callSendAPI(messageData);
         }
-        var romanization = hangulRomanization.convert(result);
+        var romanization = hangulRomanization.convert(res);
         messageData.message.text = translation.translatedText + '\n\n' + romanization
         callSendAPI(messageData);
         console.log(translation.translatedText);
@@ -74,7 +74,7 @@ function sendTextMessage(recipientId, messageText) {
       if (params.source === 'ko') {
         messageData.message.text = res
       } else {
-        var romanization = hangulRomanization.convert(result);
+        var romanization = hangulRomanization.convert(res);
 
         /* Translation Message */
         messageData.message.text = res + '\n\n' + romanization
