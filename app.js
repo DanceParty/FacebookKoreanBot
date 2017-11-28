@@ -6,6 +6,10 @@ var NaverTranslator = require('naver-translator');
 
 var app = express()
 
+// helpers
+var helpers = require('./src/helpers.js')
+
+
 var naverConfig = require('./config/naver-config.js')
 var facebookConfig = require('./config/facebook-config.js')
 
@@ -34,20 +38,6 @@ app.use(bodyParser.json())
 // Where:
 //		Returning an advertisement 20% of the time
 
-function handleError(error) {
-  if (error.errorCode === '010') {
-    return "Translation limit reached. Please try again tomorrow."
-  }
-}
-
-function mathRandom() {
-	var num = Math.random();
-	if (num > 0.8) {
-		return true;
-	}
-	return false;
-}
-
 function sendTextMessage(recipientId, messageText) {
 
 	// this matches all hangul characters so I know if
@@ -61,130 +51,53 @@ function sendTextMessage(recipientId, messageText) {
       source : 'ko',
       target : 'en'
     };
-		translator.translate(params, function(result, error) {
-			if (error) {
-        console.log("** ERROR1:", error)
-        var errorMessage = handleError(error)
-				// use another translator or call naver directly?
-				var messageData = {
-		      recipient: {
-		        id: recipientId
-		      },
-		      message: {
-		        text: errorMessage,
-		      }
-		    }
-		    callSendAPI(messageData);
-			}
-	    var messageData = {
-	      recipient: {
-	        id: recipientId
-	      },
-	      message: {
-	        text: result,
-	      }
-	    }
-	    callSendAPI(messageData);
-	  });
-  }
-	// else translate to korean
-	else {
+  } else {
     params = {
   	  text : messageText,
       source : 'en',
       target : 'ko'
     };
-		translator.translate(params, function(result, error) {
-			if (error) {
-        console.log("** ERROR1:", error)
-        var errorMessage = handleError(error)
-				// use another translator or call naver directly?
-				var messageData = {
-		      recipient: {
-		        id: recipientId
-		      },
-		      message: {
-		        text: errorMessage,
-		      }
-		    }
-		    callSendAPI(messageData);
-			} else {
-				var romanization = hangulRomanization.convert(result);
-
-				/* Translation Message */
-				var messageData = {
-		      recipient: {
-		        id: recipientId
-		      },
-		      message: {
-		        text: result + '\n\n' + romanization,
-		      }
-		    }
-
-				var returnAd = mathRandom();
-				// Url for the API
-
-				if (returnAd) {
-					getUrl = 'https://radbots.com/api/ads?agent_key=50c756fb246aa7cb&media_type=image&context=begining-chat&persona_id=' + recipientId + '&tags=korea,english,translate,language&intent=translation'
-					// call the ad API
-					https.get(getUrl, function(res, err) {
-						if (err) {
-							console.log("----------ERROR WITH AD API-----------")
-						} else {
-							var body = '';
-							res.on('data', function(data) {
-								body += data;
-							})
-							// I think this is not running by the time th ASYNC function is done.
-							// try and move it outside of this scope for better results :D
-							res.on('end', function() {
-								var parsedData = JSON.parse(body);
-								var ctaLong = parsedData.ad.cta_long;
-								var medImage = parsedData.ad.media.url.medium;
-								var adUrl = parsedData.ad.url;
-								var newMessage = {
-						      recipient: {
-						        id: recipientId
-						      },
-									"message":{
-								    "attachment":{
-								      "type":"template",
-								      "payload":{
-								        "template_type":"generic",
-								        "elements":[
-								           {
-								            "title": ctaLong,
-								            "image_url": medImage,
-								            "default_action": {
-								              "type": "web_url",
-								              "url": adUrl,
-								              "webview_height_ratio": "tall"
-								            },
-								            "buttons":[
-								              {
-								                "type":"web_url",
-								                "url": adUrl,
-								                "title":"View Website"
-								              }
-								            ]
-								          }
-								        ]
-								      }
-								    }
-								  }
-						    }
-								// send the messages
-								callSendAPI(newMessage);
-								callSendAPI(messageData);
-							})
-						}
-					});
-				} else {
-					callSendAPI(messageData);
-				}
-			}
-	  });
   }
+  translator.translate(params, function(res, err) {
+    if (err) {
+      console.log('** error:', err)
+      var errMessage = helpers.handleError(err)
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          text: errorMessage,
+        }
+      }
+      callSendAPI(messageData);
+    } else {
+      var messageData = {}
+      if (params.source === 'ko') {
+        messageData = {
+          recipient: {
+            id: recipientId
+          },
+          message: {
+            text: result,
+          }
+        }
+      } else {
+        var romanization = hangulRomanization.convert(result);
+
+        /* Translation Message */
+        messageData = {
+          recipient: {
+            id: recipientId
+          },
+          message: {
+            text: result + '\n\n' + romanization,
+          }
+        }
+      }
+      callSendAPI(messageData);
+    }
+  })
 }
 
 function sendGenericMessage(recipientId) {
