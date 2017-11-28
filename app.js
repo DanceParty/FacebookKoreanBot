@@ -10,8 +10,6 @@ var naverConfig = require('./config/naver-config.js')
 var facebookConfig = require('./config/facebook-config.js')
 
 
-console.log('** Naver Config:', naverConfig)
-
 var credentials = {
 	client_id : naverConfig.config.naverClient,
 	client_secret : naverConfig.config.naverSecret
@@ -45,6 +43,7 @@ function mathRandom() {
 }
 
 function sendTextMessage(recipientId, messageText) {
+  console.log("HELLO WE ARE HERE")
 	// this matches all hangul characters so I know if
 	// the incoming message is in English or hangul
   var hangulRegex = /[\u3131-\uD79D]/ugi;
