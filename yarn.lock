@@ -334,9 +334,9 @@ getpass@^0.1.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
 
-"hangul-romanization@https://github.com/jkd65/hangul-romanization/tarball/master":
-  version "0.0.2"
-  resolved "https://github.com/jkd65/hangul-romanization/tarball/master#03ded7398c140cb7572ef5bcf5106f6114323d91"
+hangul-romanization@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/hangul-romanization/-/hangul-romanization-0.0.6.tgz#359235e40630eac84b5b0562f8548c5a80e552f7"
   dependencies:
     typescript "^2.0.3"
 
